@@ -1,0 +1,251 @@
+﻿<%///判断登录
+    if (Session["login_name"] == null)
+    {
+        Response.Write("请先<a href='/'>登录</a>");
+        Response.End();
+    } %>
+
+<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="MasterPage.master.cs"
+    Inherits="Topicsys.Web.MasterPage" %>
+
+<%@ Register Src="~/Controls/copyright.ascx" TagName="copyright" TagPrefix="uc1" %>
+<!DOCTYPE html>
+<html lang="zh">
+<head runat="server">
+    <title>模板页</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="/css/mui.min.css" rel="stylesheet" />
+    <script src="/js/mui.min.js"></script>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/app.js"></script>
+    <link href="/css/MyStyle/default.css" rel="stylesheet" type="text/css" />
+    <!--script src="/js/vue.min.js"></!--script-->
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <noscript>
+        <div style="color: Red; font-size: 2em; height: 1000px; padding: 20px">
+            本系统需要浏览器启用Javascript支持，否则无法正常使用。关于浏览器如何启用JavaScript支持，请参阅=>各种浏览器开启JavaScript脚本方法:<a href="http://360.bgu.edu.cn/help/openJsHelp.html">http://360.bgu.edu.cn/help/openJsHelp.html</a>。
+        <br />
+            <br />
+            推荐使用谷歌浏览器：<a href="http://www.google.cn/chrome/browser/desktop/index.html">http://www.google.cn/chrome/browser/desktop/index.html</a>
+            <br />
+            <br />
+            <a href="/">重新加载</a>
+        </div>
+    </noscript>
+    <div class="row">
+        <div class="col-12" style="background: #0094ff;">
+            <h1 class="mytitle">论文选题管理系统</h1>
+            <span id="panelShowTime">&emsp;
+                <script type="text/javascript">
+                    /*function writeNow() {
+                    document.getElementById("panelShowTime").innerText = (new Date().Format("yyyy年-M月-dd日 星期w hh:mm:ss"));
+                    };
+                    setInterval("writeNow()", 1000);*/
+                </script>
+            </span><span id="showLogin_name">
+                <%
+                    ///登录后相关角色相关链接
+                    if (Session["user_name"] != null)
+                    {
+                        if (Session["type"].Equals("student"))
+                            Response.Write("<a href='/select/default.aspx' style='color: #fff'>" + Session["user_name"] + "</a>，");
+                        else
+                            Response.Write("<a href='/Admin/' style='color: #fff'>" + Session["user_name"] + "</a>，");//显示管理员后台链接
+
+                        Response.Write("<a href='#' style='color: #fff' onclick='return mui.confirm(\"确认注销？\",\"温馨提示\",[\"取消\",\"注销\"],function(e){if(e.index==1)top.location.href = \"/logout.aspx\";})'>注销</a>");//显示注销链接
+                    }
+                %>
+            </span>
+        </div>
+    </div>
+    <div class="row" style="padding: 10px">
+        <div class="col-3">
+            <div id="accordion">
+                <%/*选题管理*/ %>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseUsed">选题管理</a>
+                    </div>
+                    <div id="collapseUsed" class="collapse show" style="margin-left: 20px">
+                        <%if (Session["type"].ToString().Equals("student"))
+                            { %>
+                        <div class="card-block">
+                            <a href="/select/list.aspx?menu=collapseUsed">查看可选题目列表</a>
+                        </div>
+                        <%} %>
+                        <%if (int.Parse(Session["role"].ToString()) > 1)//判断权限大于学生
+                            {%>
+                        <div class="card-block">
+                            <a href="/select/default.aspx?menu=collapseUsed">查看学生选题状态</a>
+                        </div>
+                        <%} %>
+                        <%if (Session["type"].ToString().Equals("student"))
+                            { %>
+                        <div class="card-block">
+                            <a href="/select/status.aspx?menu=collapseUsed">查看选题结果</a>
+                        </div>
+                        <%} %>
+                        <%if (int.Parse(Session["role"].ToString()) > 2)//判断权限大于导师
+                            {%>
+                        <div class="card-block">
+                            <a href="/select/list2.aspx?menu=collapseUsed">查看待分配学生列表</a>
+                        </div>
+                        <% }%>
+                        <%if (int.Parse(Session["role"].ToString()) > 3)//判断权限大于教研室主任
+                            {%>
+                        <div class="card-block">
+                            <a href="/select/dist.aspx?menu=collapseUsed">发布选题结果</a>
+                        </div>
+                        <div class="card-block">
+                            <a href="/select/export.aspx?menu=collapseUsed">导出选题结果</a>
+                        </div>
+                        <% }%>
+                        <%if (Session["type"].Equals("teacher") || Session["type"].Equals("mteacher"))//判断权限为导师或教研室主任
+                            {%>
+                        <div class="card-block">
+                            <a href="/select/export_teacher.aspx?menu=collapseUsed">导出选题结果</a>
+                        </div>
+                        <%} %>
+                    </div>
+                </div>
+                <%/*end of 选题管理*/ %>
+                <%/*出题管理*/ %>
+                <%if (int.Parse(Session["role"].ToString()) > 1)//判断权限大于学生
+                    {%>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseTopic">出题管理</a>
+                    </div>
+                    <div id="collapseTopic" class="collapse" style="margin-left: 20px">
+                        <div class="card-block">
+                            <a href="/topic/default.aspx?menu=collapseTopic">查看出题信息</a>
+                        </div>
+                        <div class="card-block">
+                            <a href="/topic/add.aspx?menu=collapseTopic">添加出题信息</a>
+                        </div>
+                        <%if (int.Parse(Session["role"].ToString()) > 2)//判断权限大于导师
+                            {%>
+                        <div class="card-block">
+                            <a href="/topic/list.aspx?menu=collapseTopic">审核出题信息</a>
+                        </div>
+                        <%} %>
+                        <!--div class="card-block">
+                            <a href="/topic/status.aspx?menu=collapseTopic">注销出题信息</a>
+                        </div-->
+                    </div>
+                </div>
+                <%} %>
+                <%/* end of 出题管理 */ %>
+                <%if (Session["type"].Equals("admin"))
+                    { %>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseNotice">公告管理</a>
+                    </div>
+                    <div id="collapseNotice" class="collapse" style="margin-left: 20px">
+                        <div class="card-block">
+                            <a href="/notice/add.aspx?menu=collapseNotice">发布公告</a>
+                        </div>
+                        <div class="card-block">
+                            <a href="/notice/default.aspx?menu=collapseNotice">查看公告列表</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseBasicData">基础数据管理 </a>
+                    </div>
+                    <div id="collapseBasicData" class="collapse" style="margin-left: 20px">
+                        <div class="card-block myblock">
+                            <a href="/dept/default.aspx?menu=collapseBasicData">系别管理</a>
+                        </div>
+                        <div class="card-block myblock">
+                            <a href="/major/default.aspx?menu=collapseBasicData">专业管理</a>
+                        </div>
+                        <div class="card-block myblock">
+                            <a href="/class/default.aspx?menu=collapseBasicData">班级管理</a>
+                            <ul>
+                                <li><a href="/class/Add.aspx?menu=collapseBasicData">添加班级</a></li>
+                                <li><a href="/import.aspx?menu=collapseBasicData">导入班级信息</a></li>
+                            </ul>
+                        </div>
+                        <div class="card-block myblock">
+                            <a href="/teacher/default.aspx?menu=collapseBasicData">导师/教研室主任管理</a>
+                            <ul>
+                                <li><a href="/teacher/Add.aspx?menu=collapseBasicData">添加导师/教研室主任</a></li>
+                                <li><a href="/import.aspx?menu=collapseBasicData">导入导师/教研室主任</a></li>
+                            </ul>
+                        </div>
+                        <div class="card-block">
+                            <a href="/student/default.aspx?menu=collapseBasicData">学生管理</a>
+                            <ul>
+                                <li><a href="/student/Add.aspx?menu=collapseBasicData">添加学生</a></li>
+                                <li><a href="/import.aspx?menu=collapseBasicData">导入学生</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <%/*end of 基础数据管理*/ %>
+                <%} %>
+                <%/*系统管理*/ %>
+                <div class="card">
+                    <div class="card-header">
+                        <a class="card-link" data-toggle="collapse" data-parent="#accordion" href="#collapseRole">系统管理 </a>
+                    </div>
+                    <div id="collapseRole" class="collapse" style="margin-left: 20px">
+                        <div class="card-block">
+                            <a href="#">密码管理</a>
+                            <ul>
+                                <li><a href="/ChagePassword.aspx?menu=collapseRole" target="_blank">修改密码</a> </li>
+                                <li><a href="/ChagePasswordQA.aspx?menu=collapseRole">设置密保问题</a> </li>
+                            </ul>
+                        </div>
+                        <%if (Session["type"].Equals("admin"))
+                            { %>
+                        <div class="card-block">
+                            <a href="/admin/default.aspx?menu=collapseRole">系统角色管理</a>
+                            <ul>
+                                <li><a href="/admin/default.aspx?menu=collapseRole">查看系统角色</a></li>
+                                <li><a href="/admin/Add.aspx?menu=collapseRole">添加系统角色</a></li>
+                                <li><a href="/Admin/ResetPassword.aspx?menu=collapseRole">重置其他角色密码</a></li>
+                            </ul>
+                            <a href="/log/default.aspx?menu=collapseRole">查看系统日志</a>
+                        </div>
+                        <%} %>
+                        <%/*end of 系统管理*/ %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="card">
+                <form id="form1" runat="server">
+                    <asp:ContentPlaceHolder ID="rightContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </form>
+            </div>
+        </div>
+    </div>
+    <uc1:copyright ID="copyright1" runat="server" />
+    <script type="text/javascript">
+        /* 自动展开菜单 */
+        $(document).ready(function () {
+            if (app.getUrlParam("menu")) {
+                localStorage.menu = app.getUrlParam("menu");
+            }
+            if (localStorage.menu) {
+                $("#collapseUsed").removeClass("show");
+                $(("#" + localStorage.menu)).addClass("show", "true");
+                //$("#" + app.getUrlParam("menu")).addClass("focusMenu", "true");/*设置展开菜单样式*/
+            }
+        })
+    </script>
+</body>
+</html>

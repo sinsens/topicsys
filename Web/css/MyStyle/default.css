@@ -1,0 +1,62 @@
+﻿body {
+    font-size: 0.85em;
+    background: rgba(245, 245, 245, 0.95);
+    overflow-x: hidden;
+    margin: 0 auto;
+}
+
+table {
+}
+
+    table tr {
+    }
+
+        table tr th {
+            background: rgba(245, 245, 245, 0.95);
+            /*color:#eee;*/
+            text-align: center;
+        }
+
+select {
+    width: auto;
+}
+/* 展开后菜单样式 */
+.focusMenu {
+}
+    /* 展开后菜单链接样式 */
+    .focusMenu a {
+        color: darkorange;
+    }
+
+input {
+    width: auto;
+}
+
+ul {
+    margin-left: -20px
+}
+
+.myblock {
+    border-bottom: 1px solid gray;
+}
+
+.mytitle {
+    margin: 10px 0 0 10px;
+    color: blanchedalmond;
+    width: 70%
+}
+
+#panelShowTime {
+    float: right;
+    color: white;
+    font-size: 12px;
+    margin-right: 10px
+}
+
+#showLogin_name {
+    float: left;
+    font-size: 12px;
+    margin-left: 10px;
+    text-decoration: none;
+    color: #fff
+}

@@ -1,0 +1,59 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Web.UI.WebControls;
+
+namespace Topicsys.BLL
+{
+    /// <summary>
+    /// ListBox控件专用
+    /// </summary>
+    public class LB
+    {
+        /// <summary>
+        /// 系别DDL
+        /// </summary>
+        /// <param name="ListBox"></param>
+        public static void DeptLB(ListBox ListBox)
+        {
+            ListBox.Items.Clear();
+            var bll = new BLL.t_dept();
+            var model = bll.GetModelList("dept_stat=0");
+            foreach (var item in model)
+            {
+                ListBox.Items.Add(new ListItem(item.dept_name, item.dept_id));
+            }
+        }
+
+        /// <summary>
+        /// 专业DDL
+        /// </summary>
+        /// <param name="ListBox"></param>
+        public static void MajorLB(ListBox ListBox, string dept_id = null)
+        {
+            ListBox.Items.Clear();
+            var bll = new BLL.t_major();
+            var model = dept_id == null ? bll.GetModelList("major_stat=0") : bll.GetModelList("major_stat=0 AND major_dept_id='" + dept_id + "'");
+            foreach (var item in model)
+            {
+                ListBox.Items.Add(new ListItem(item.major_name, item.major_id));
+            }
+        }
+
+        /// <summary>
+        /// 班级DDL
+        /// </summary>
+        /// <param name="ListBox"></param>
+        public static void ClassLB(ListBox ListBox, string major_id = null)
+        {
+            ListBox.Items.Clear();
+            var bll = new BLL.t_class();
+            var model = major_id == null ? bll.GetModelList("class_stat=0") : bll.GetModelList("class_stat=0 AND class_major_id='" + major_id + "'");
+            foreach (var item in model)
+            {
+                ListBox.Items.Add(new ListItem(item.class_name, item.class_id));
+            }
+        }
+    }
+}
