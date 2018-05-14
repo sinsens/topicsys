@@ -21,7 +21,6 @@ namespace Topicsys.Model
         private string _topic_note;
         private int _topic_stat = 0;
         private int _topic_num = 0;
-        private int _topic_type = 0;
 
         /// <summary>
         /// auto_increment
@@ -42,7 +41,7 @@ namespace Topicsys.Model
         }
 
         /// <summary>
-        /// 出题教师工号
+        ///
         /// </summary>
         public string topic_teacher_gh
         {
@@ -51,7 +50,7 @@ namespace Topicsys.Model
         }
 
         /// <summary>
-        /// 可选班级
+        ///
         /// </summary>
         public string topic_class_id
         {
@@ -60,7 +59,7 @@ namespace Topicsys.Model
         }
 
         /// <summary>
-        /// 题目名称
+        ///
         /// </summary>
         public string topic_name
         {
@@ -69,7 +68,7 @@ namespace Topicsys.Model
         }
 
         /// <summary>
-        /// 备注
+        ///
         /// </summary>
         public string topic_note
         {
@@ -78,7 +77,7 @@ namespace Topicsys.Model
         }
 
         /// <summary>
-        /// 选题状态
+        ///
         /// </summary>
         public int topic_stat
         {
@@ -87,15 +86,13 @@ namespace Topicsys.Model
         }
 
         /// <summary>
-        /// 可选人数
+        ///
         /// </summary>
         public int topic_num
         {
             set { _topic_num = value; }
             get { return _topic_num; }
         }
-
-        public int topic_type { get => _topic_type; set => _topic_type = value; }
 
         #endregion Model
     }

@@ -1,0 +1,18 @@
+1.搭建好MySQL服务器(略)
+
+2.创建数据库topicdb（数据库名称任意，不过不用这个名称需要修改Web/Web.config配置文件里的database）
+
+3.导入SQL文件“topicdb_with_admin.sql”到数据库，请使用查询方式导入而不是运行SQL文件
+
+4.配置Web/Web.config文件
+
+5.以管理员身份启动Web目录里的“NetBox.Net.exe”，选择.Net版本为v4.0，其他不变
+
+6.点击“NetBox.Net”程序的“启动服务”按钮
+
+7.至此，系统初步安装完成
+
+
+
+							钟新政 
+						2017年12月27日

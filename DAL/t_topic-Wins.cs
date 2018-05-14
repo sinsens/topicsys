@@ -43,7 +43,7 @@ namespace Topicsys.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("select count(1) from t_topic");
-            strSql.Append(" where topic_id=@topic_id OR id=@id ");
+            strSql.Append(" where topic_id=@topic_id and id=@id ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@topic_id", MySqlDbType.VarChar,40),
                     new MySqlParameter("@id", MySqlDbType.Int32,11)         };
@@ -70,8 +70,7 @@ namespace Topicsys.DAL
                     new MySqlParameter("@topic_name", MySqlDbType.VarChar,64),
                     new MySqlParameter("@topic_note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@topic_stat", MySqlDbType.Int32,1),
-                    new MySqlParameter("@topic_num", MySqlDbType.Int32,3),
-                    new MySqlParameter("@topic_type", MySqlDbType.Int32, 1)};
+                    new MySqlParameter("@topic_num", MySqlDbType.Int32,3)};
             parameters[0].Value = model.topic_id;
             parameters[1].Value = model.topic_teacher_gh;
             parameters[2].Value = model.topic_class_id;
@@ -79,7 +78,6 @@ namespace Topicsys.DAL
             parameters[4].Value = model.topic_note;
             parameters[5].Value = model.topic_stat;
             parameters[6].Value = model.topic_num;
-            parameters[7].Value = model.topic_type;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -105,7 +103,6 @@ namespace Topicsys.DAL
             strSql.Append("topic_note=@topic_note,");
             strSql.Append("topic_stat=@topic_stat,");
             strSql.Append("topic_num=@topic_num");
-            strSql.Append("topic_type=@topic_type");
             strSql.Append(" where id=@id");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@topic_teacher_gh", MySqlDbType.VarChar,20),
@@ -114,16 +111,16 @@ namespace Topicsys.DAL
                     new MySqlParameter("@topic_note", MySqlDbType.VarChar,255),
                     new MySqlParameter("@topic_stat", MySqlDbType.Int32,1),
                     new MySqlParameter("@topic_num", MySqlDbType.Int32,3),
-                    new MySqlParameter("@topic_type", MySqlDbType.Int32, 1),
-            new MySqlParameter("@id", MySqlDbType.Int32,11)};
+                    new MySqlParameter("@id", MySqlDbType.Int32,11),
+                    new MySqlParameter("@topic_id", MySqlDbType.VarChar,40)};
             parameters[0].Value = model.topic_teacher_gh;
             parameters[1].Value = model.topic_class_id;
             parameters[2].Value = model.topic_name;
             parameters[3].Value = model.topic_note;
             parameters[4].Value = model.topic_stat;
             parameters[5].Value = model.topic_num;
-            parameters[6].Value = model.topic_type;
-            parameters[7].Value = model.id;
+            parameters[6].Value = model.id;
+            parameters[7].Value = model.topic_id;
 
             int rows = DbHelperMySQL.ExecuteSql(strSql.ToString(), parameters);
             if (rows > 0)
@@ -167,7 +164,7 @@ namespace Topicsys.DAL
         {
             StringBuilder strSql = new StringBuilder();
             strSql.Append("delete from t_topic ");
-            strSql.Append(" where topic_id=@topic_id OR id=@id ");
+            strSql.Append(" where topic_id=@topic_id and id=@id ");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@topic_id", MySqlDbType.VarChar,40),
                     new MySqlParameter("@id", MySqlDbType.Int32,11)         };
@@ -210,7 +207,7 @@ namespace Topicsys.DAL
         public Topicsys.Model.t_topic GetModel(int id)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,topic_id,topic_teacher_gh,topic_class_id,topic_name,topic_note,topic_stat,topic_num,topic_type from t_topic ");
+            strSql.Append("select id,topic_id,topic_teacher_gh,topic_class_id,topic_name,topic_note,topic_stat,topic_num from t_topic ");
             strSql.Append(" where id=@id");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@id", MySqlDbType.Int32)
@@ -235,7 +232,7 @@ namespace Topicsys.DAL
         public Topicsys.Model.t_topic GetModel(string id)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,topic_id,topic_teacher_gh,topic_class_id,topic_name,topic_note,topic_stat,topic_num,topic_type from t_topic ");
+            strSql.Append("select id,topic_id,topic_teacher_gh,topic_class_id,topic_name,topic_note,topic_stat,topic_num from t_topic ");
             strSql.Append(" where topic_id=@id");
             MySqlParameter[] parameters = {
                     new MySqlParameter("@id", MySqlDbType.VarChar)
@@ -294,7 +291,6 @@ namespace Topicsys.DAL
                 {
                     model.topic_num = int.Parse(row["topic_num"].ToString());
                 }
-                model.topic_type = int.Parse(row["topic_type"].ToString());
             }
             return model;
         }
@@ -305,7 +301,7 @@ namespace Topicsys.DAL
         public DataSet GetList(string strWhere)
         {
             StringBuilder strSql = new StringBuilder();
-            strSql.Append("select id,topic_id,topic_teacher_gh,topic_class_id,topic_name,topic_note,topic_stat,topic_num,topic_type ");
+            strSql.Append("select id,topic_id,topic_teacher_gh,topic_class_id,topic_name,topic_note,topic_stat,topic_num ");
             strSql.Append(" FROM t_topic ");
             if (strWhere.Trim() != "")
             {

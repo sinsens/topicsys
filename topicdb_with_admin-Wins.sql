@@ -201,7 +201,6 @@ CREATE TABLE `t_topic` (
   `topic_note` varchar(255) DEFAULT NULL COMMENT '备注信息，可以填写审核意见',
   `topic_stat` int(1) NOT NULL DEFAULT 0 COMMENT '为论文出题状态：0为待审核，1为审核不通过,5为已注销,9为审核通过',
   `topic_num` int(3) NOT NULL DEFAULT 0 COMMENT '论文可选题人数',
-  `topic_type` int(3) NOT NULL DEFAULT 0 COMMENT '出题类型，0为导师，1为学生自拟',
   PRIMARY KEY (`id`,`topic_id`),
   UNIQUE KEY `topic_id` (`topic_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='论文出题信息表';
